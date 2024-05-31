@@ -81,6 +81,7 @@ app.get("/todos", function (request, response) {
     .then((data) => {
       todos = JSON.parse(data);
       response.status(200).json(todos);
+      console.log("Stil Printing");
     })
     .catch(() => response.status(500).send());
 });
@@ -165,6 +166,6 @@ app.use((req, res) => {
 });
 
 // For test cases, Keep it off.
-// app.listen(3000);
+app.listen(3000);
 
 module.exports = app;
