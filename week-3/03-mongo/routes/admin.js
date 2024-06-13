@@ -20,6 +20,7 @@ router.post("/signup", async (req, res) => {
 router.post("/courses", adminMiddleware, async (req, res) => {
   try {
     const { title, description, price, imageLink } = req.body;
+    // zod - Input Validations
     const newCourse = await Course.create({
       title: title,
       description: description,
@@ -29,7 +30,10 @@ router.post("/courses", adminMiddleware, async (req, res) => {
     });
     res
       .status(200)
-      .send({ message: "Course Created Successfully", courseId: newCourse.id });
+      .send({
+        message: "Course Created Successfully",
+        courseId: newCourse._id,
+      });
   } catch (e) {
     res.status(512).send(e);
   }
@@ -42,7 +46,7 @@ router.get("/courses", adminMiddleware, async (req, res) => {
       console.log("No courses found.");
       return res.status(204).send("No courses found");
     }
-    else res.status(200).send({ courses: courses });
+    res.status(200).send({ courses: courses });
   } catch (err) {
     console.error(err);
     res.status(512).send(err);
