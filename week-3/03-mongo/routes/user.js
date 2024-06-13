@@ -39,14 +39,20 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
     const filter = { username, password };
 
     // #push operator used in qurey to update
-    const user = await User.findOne(filter);
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-    // Make changes to user
-    user.purchasedCourses.push(courseId);
-    // Save the updated user doc.
-    await user.save();
+    const result = await User.updateOne(filter, {
+      $push: {
+        purchasedCourses: courseId,
+      },
+    });
+
+    // const user = await User.findOne(filter);
+    // if (!user) {
+    //   return res.status(404).send("User not found");
+    // }
+    // // Make changes to user
+    // user.purchasedCourses.push(courseId);
+    // // Save the updated user doc.
+    // await user.save();
 
     res.status(200).send("Course added to user's purchased courses");
   } catch (err) {
